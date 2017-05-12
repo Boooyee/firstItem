@@ -1,0 +1,193 @@
+<style>
+    div{
+        padding:0.5rem 0;
+        border-collapse:collapse;
+
+    }
+    .row{
+        border-bottom:1px solid #e8e8e8;
+    }
+    .row:last-child{
+        border:0;
+    }
+    .row div {
+        border-right:1px solid #e8e8e8;
+
+    }
+    .row div:last-child{
+        border:0 !important;
+    }
+
+    .taskList-wrap{
+        border:0 !important;
+    }
+
+</style>
+
+<div class="modal ng-scope top am-fade" tabindex="-1" role="dialog" aria-hidden="true"
+     style="display: block;text-align:center;padding:2vh 0">
+
+    <div class="modal-dialog" style="width:95%;margin:0 auto;background:white">
+        <h4 style="margin:5vh auto">总览</h4>
+        <div style="background:white;border:1px solid #e8e8e8;" class="container">
+            <div class="row">
+                <div class="col-md-2">任务编号</div>
+                <div class="col-md-2">{{list.id}}</div>
+                <div class="col-md-2">状态</div>
+                <div class="col-md-2">{{list.status|venderTaskStatusFilter}}</div>
+                <div class="col-md-2">厂家</div>
+                <div class="col-md-2">{{list.venderName}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">经销商</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">编号</div>
+                <div class="col-md-2">省</div>
+                <div class="col-md-2">市</div>
+                <div class="col-md-3">简称</div>
+                <div class="col-md-3">全称</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">1</div>
+                <div class="col-md-2">{{list.distributorProvince|provinceFilter}}</div>
+                <div class="col-md-2">{{list.distributorCity|cityFilter}}</div>
+                <div class="col-md-3">{{list.distributorShortName}}</div>
+                <div class="col-md-3">{{list.distributorName}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">任务计划</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">计划日期</div>
+                <div class="col-md-2">团队</div>
+                <div class="col-md-2">盘库率</div>
+                <div class="col-md-2">倒查率</div>
+                <div class="col-md-2">拍照率</div>
+                <div class="col-md-2">创建时间</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">{{list.planBeginAt|date:'yyyy-MM-dd HH:mm'}}</div>
+                <div class="col-md-2">{{list.eachTeamName}}</div>
+                <div class="col-md-2">{{parseInt(list.inventoryNum)/parseInt(list.inventoryTotalNum)||0}}</div>
+                <div class="col-md-2">{{parseInt(list.inspectNum)/parseInt(list.inspectTotalNum)||0}}<!--倒查率--></div>
+                <div class="col-md-2">{{(parseInt(list.inventoryNum) + parseInt(list.inspectNum))/(parseInt(list.inventoryTotalNum) + parseInt(list.inspectTotalNum))||0}}  <!--拍照率--></div>
+                <div class="col-md-2">{{list.createAt|date:'yyyy-MM-dd HH:mm'}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">创建者</div>
+                <div class="col-md-2">盘库数</div>
+                <div class="col-md-2">倒查数</div>
+                <div class="col-md-2">拍照数</div>
+                <div class="col-md-2">分配时间</div>
+                <div class="col-md-2">分配者</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">{{list.createBy}}</div>
+                <div class="col-md-2">{{list.inventoryNum}}</div>
+                <div class="col-md-2">{{list.inspectNum}}</div>
+                <div class="col-md-2">{{list.inventoryNum+list.inspectNum}}</div>
+                <div class="col-md-2">{{list.distributeAt}}</div>
+                <div class="col-md-2">{{list.distributeBy}}</div>
+            </div>
+
+            <!--任务审计 && 任务结束-->
+            <div class="row">
+                <div class="col-md-7">
+                    现场审计
+                </div>
+                <div class="col-md-5">
+                        任务结束
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-7 taskList-wrap">
+                    <div class="col-md-3">
+                            进场时间
+                    </div>
+                    <div class="col-md-3">
+                        分配数
+                    </div>
+                    <div class="col-md-3">
+                        完成时间
+                    </div>
+                    <div class="col-md-3">
+                        完成数
+                    </div>
+                </div>
+                <div class="col-md-5 taskList-wrap">
+                    <div class="col-md-6">
+                        关闭时间
+                    </div>
+                    <div class="col-md-6">
+                        关闭者
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-7 taskList-wrap">
+                    <div class="col-md-3">
+                        {{list.beginAt|date:'yyyy-MM-dd HH:mm'}}
+                    </div>
+                    <div class="col-md-3">
+                        {{list.distributeNum}}
+                    </div>
+                    <div class="col-md-3">
+                        {{list.endAt|date:'yyyy-MM-dd HH:mm'}}
+                    </div>
+                    <div class="col-md-3">
+                        {{list.completeNum}}
+                    </div>
+                </div>
+                <div class="col-md-5 taskList-wrap">
+                    <div class="col-md-6">
+                        {{list.closeAt}}
+                    </div>
+                    <div class="col-md-6">
+                        {{list.closeBy}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-7 taskList-wrap">
+                    <div class="col-md-3">其他</div>
+                    <div class="col-md-3">{{list.comment}}</div>
+                    <div class="col-md-3">二网违规</div>
+                    <div class="col-md-3">{{list.sotNum}}</div>
+                </div>
+                <div class="col-md-5 taskList-wrap">
+                    <div class="col-md-4">1</div>
+                    <div class="col-md-4">故障</div>
+                    <div class="col-md-4">{{list.breakdownNum}}</div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2">说明</div>
+                <div class="col-md-10">{{list.comment}}</div>
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+        <button class="btn btn-success" style="width:30%;margin:2vh auto;" ng-click="cancel()">关闭</button>
+    </div>
+</div>

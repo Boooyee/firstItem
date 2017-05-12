@@ -1,0 +1,78 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">名称</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.venderName" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">团队数量</label>
+                        <div class="col-lg-8 col-md-8">
+                            <input   type="text" class="form-control" ng-model="vm.searchParams.teamNum" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">账号</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.managerName" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-right ">
+                    <search params="vm.searchParams"></search>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>厂家列表</strong>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.agencyDetail">+新增</button>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table style="min-width:850px;overflow: auto" class="table table-hover add-table-border">
+                <thead>
+                <tr class="grey">
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>团队数量</th>
+                    <th>账号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in vm.list">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.teamNum}}</td>
+                    <td>{{item.managerName}}</td>
+                    <td>
+                        <button class="btn btn-primary btn-xs" ui-sref="field.agencyDetail({id:item.id})">编辑</button>
+
+                        <button class="btn btn-xs btn-danger"
+                                ng-if=" item.status == 1" ng-click="vm.inBan(item.id,item.status)">禁用</button>
+                        <button class=" btn btn-xs btn-success"
+                                ng-if=" item.status ==0" ng-click="vm.outBan(item.id,item.status)">解禁</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+
+    </div>
+</div>

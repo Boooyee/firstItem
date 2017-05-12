@@ -1,0 +1,69 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong ng-show="!vm.exist">新增团队</strong>
+        <strong ng-show="vm.exist">编辑团队</strong>
+    </div>
+    <div class="panel-body">
+        <!--产品详情-->
+        <form class="form-horizontal" name="team" novalidate>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 "><span class="star">*</span>名称</label>
+                        <div class="col-md-6 col-lg-8">
+                            <input class="form-control" ng-model="vm.params.name"
+                                   name="teamName"
+                                   required
+                                   ng-disabled="exist"
+                                   type="text">
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="team.teamName.$error" ng-if="team.teamName.$touched || show_error">
+                                <span ng-message="required">请输入团队名称</span>
+
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" ng-if="vm.general==1">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>厂家</label>
+                        <div class="col-md-6 col-xs-11 ">
+                            <select class="form-control" ng-model="vm.params.belongToId" autocomplete="off" required name="belongToId">
+                                <option value="-10000" selected="selected">通用</option>
+                                <option value="{{item.id}}" ng-repeat="item in vm.list " >{{item.name}}</option>
+
+                            </select>
+
+
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="team.belongToId.$error" ng-if="team.belongToId.$touched || show_error">
+                                <span ng-message="required">请选择厂家类型</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!--按钮-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12  margin-top-20 middle">
+
+                    <button class="btn btn-danger " ui-sref="field.teamList">取消</button>
+
+                    <button class="btn btn-success"
+                            ng-click="vm.submitForm()"
+                            repeat-click
+
+                            type="button" ng-disabled="team.$invalid">确认
+                    </button>
+
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>

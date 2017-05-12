@@ -1,0 +1,259 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong ng-show="!vm.exist">新增</strong>
+        <strong ng-show="vm.exist">编辑</strong>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" name="content" novalidate>
+            <!--标题名称-->
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">标题名称</label>
+                        <div class="col-md-8">
+                            <input class="form-control" name="title" ng-model="vm.content.title" placeholder="请输入标题名称" required type="text">
+
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="content.title.$error" ng-if="content.title.$touched || show_error">
+                                <span ng-message="required">请设置标题名称</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--选择类型vm.content.type：value=1、帮助中心   value=0、关于我们-->
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">类型</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="type" required ng-model="vm.content.type">
+                                <option value=""
+                                        ng-selected="vm.content.type==''||vm.content.type==undefined" selected>请选择类型
+                                </option>
+                                <option value="1">帮助中心</option>
+                                <option value="0">关于我们</option>
+                            </select>
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-if="content.type.$touched || vm.show_error" ng-messages="content.type.$error">
+                                <span ng-message="required">请设置类型</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--关于我们-->
+            <div class="row"  ng-if="vm.content.type==0">
+                <div class="form-horizontal col-md-10">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" style="margin-bottom: 15px;">内容</label>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="btn btn-primary" for="file2">选择图片</label>
+                                    <p style="color:red;">文件名称请勿使用中文字符</p>
+                                    <input id="file2" style="display: none" name="aboutUs" type="file" nv-file-select  accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp" uploader="vm.uploader1"  ng-click="vm.clearImg1()"/>
+                                    <span class="text-red" style="position: relative;font-size: 0.5em;width: 150%" ng-if="(vm.content.url==''||vm.content.url==undefined)&&vm.show_error">
+                                    <span ng-show="vm.content.url==''||vm.content.url==undefined">请上传封面</span>
+
+                                    <span class="text-red" style="position: relative;font-size: 0.5em;width: 150%"
+                                          ng-if="vm.show_limit1">图片大小请限制在1M以内</span>
+                                         </span>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <img src="{{vm.url}}" alt="配图预览" class="img-responsive">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table  table-bordered">
+                                            <thead class="grey">
+                                            <th>图片名</th>
+                                            <th>文件大小</th>
+                                            <th>进度</th>
+                                            <th>操作</th>
+                                            <th>操作</th>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="item in vm.uploader1.queue" class="ng-scope" ng-if="$first">
+                                                <td><strong class="ng-binding">{{item.file.name}}</strong></td>
+                                                <td ng-show="vm.uploader1.isHTML5" nowrap="" class="ng-binding">
+                                                    {{item.file.size/1024/1024 | number:2 }} MB
+                                                </td>
+                                                <td ng-show="vm.uploader1.isHTML5">
+                                                    <div class="progress" style="margin-bottom: 0;">
+                                                        <div class="progress-bar" role="progressbar"
+                                                             ng-style="{ 'width': item.progress + '%' }"></div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                </td>
+                                                <td nowrap="">
+                                                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()"
+                                                            ng-disabled="item.isReady || item.isUploading || item.isSuccess||vm.show_limit1">
+                                                        <span class="glyphicon glyphicon-upload"></span> 上传
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                        <span class="glyphicon glyphicon-trash"></span> 删除
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div >
+
+            <!--帮助中心-->
+            <div id="helpCenter" class="row" ng-if="vm.content.type==1"  ng-repeat="li in vm.repeat ">
+
+                <!--选择 li.centerType  1、图片  2、文本-->
+                <div class="col-md-10">
+
+                    <div class="form-group">
+                        <button class="btn btn-danger" ng-click="vm.del($index)" ng-if="!$last">删除</button>
+                        <button ng-if="$last" class="btn btn-success  "  ng-click="vm.add()">新增</button>
+
+                        <label class="control-label col-md-2" >内容</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="type" required ng-model="li.centerType"  >
+                                <option value=""
+                                        ng-selected="li.centerType==''||li.centerType==undefined" >请选择类型
+                                </option>
+                                <option value="1" ng-selected="1==li.centerType">图片</option>
+                                <option value="2" ng-selected="2==li.centerType">文本</option>
+                            </select>
+                            <!--<span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"-->
+                            <!--ng-if="content.type.$touched || vm.show_error" ng-messages="content.type.$error">-->
+                            <!--<span ng-message="required">请设置类型</span>-->
+                            <!--</span>-->
+                        </div>
+                    </div>
+                </div>
+
+                <!--上传图片2-->
+                <div  class="form-horizontal col-md-10" ng-if="li.centerType==1">
+
+                    <div class="form-group" >
+                        <label class="col-md-2 control-label" style="margin-bottom: 15px;"></label>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label class="btn btn-primary relative" for="file{{$index}}" >选择图片</label>
+                                    <p style="color:red;">文件名称请勿使用中文字符</p>
+                                    <input  id="file{{$index}}" style="display: none" type="file"  nv-file-select   accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp" uploader="vm.repeat[$index].uploader2" >
+                                    <!--<span class="text-red" style="position: relative;font-size: 0.5em;width: 150%"-->
+                                    <!--ng-if="(vm.img==''||vm.img==undefined)&&vm.show_error">-->
+                                    <!--<span ng-show="vm.content.img==''||vm.content.img==undefined">请上传图片</span></span>-->
+                                    <!--<span class="text-red" style="position: relative;font-size: 0.5em;width: 150%" ng-if="vm.show_limit2">图片大小请限制在1M以内</span>-->
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <div class="col-md-12">
+                                    <img ng-src="{{vm.repeat[$index].img}}"  alt="配图预览" class="img-responsive" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <!--进度条-->
+                                        <table class="table table-bordered" ng-show=" vm.repeat[$index].uploader2.queue.length">
+                                            <thead class="grey">
+                                            <th ng-click="vm.clickImg(vm.repeat[$index].uploader2.queue)">图片名</th>
+                                            <th ng-show="vm.repeat[$index].uploader2.isHTML5">文件大小</th>
+                                            <th ng-show="vm.repeat[$index].uploader2.isHTML5">进度</th>
+                                            <th>操作</th>
+                                            <th>操作</th>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="item in  vm.repeat[$index].uploader2.queue" class="ng-scope" ng-if="$first">
+                                                <td><strong class="ng-binding">{{item.file.name}}</strong></td>
+                                                <td  nowrap="" class="ng-binding">{{
+                                                    item.file.size/1024/1024 | number:2 }} MB
+                                                </td>
+                                                <td >
+                                                    <div class="progress" style="margin-bottom: 0;">
+                                                        <div class="progress-bar" role="progressbar"
+                                                             ng-style="{ 'width': item.progress + '%' }"></div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                </td>
+                                                <td nowrap="">
+                                                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess||vm.show_limit2">
+                                                        <span class="glyphicon glyphicon-upload"></span> 上传
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-xs"
+                                                            ng-click="item.remove()">
+                                                        <span class="glyphicon glyphicon-trash"></span> 删除
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div >
+
+
+                <!--文本输入框-->
+                <div  ng-if="li.centerType==2" >
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label class="col-md-2  control-label" >文本</label>
+                            <div class="col-sm-10 col-md-8 ">
+                                <textarea style="height:150px;" ng-model="li.information"  name="content" maxlength="200" id="internalRemark" class="form-control"   ></textarea>
+                                <p style="position: absolute;right: 30px;bottom: 0;color: gray">{{li.information.length?li.information.length:0}}/200</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <!--按钮-->
+            <div class="row">
+                <div class="col-md-8 col-md-offset-1 margin-top-20">
+                    <button class="btn btn-success"
+                            ng-click="vm.submitForm(2)"
+                            repeat-click
+
+                            type="button">立即上线
+                    </button>
+                    <button class="btn btn-info"
+                            ng-click="vm.submitForm(1)"
+
+                            repeat-click
+                            type="button">存为草稿
+                    </button>
+                    <button class="btn btn-danger margin-left-20" ui-sref="field.contentList">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

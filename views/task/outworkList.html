@@ -1,0 +1,155 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">外勤编号</label>
+                        <div class="  col-md-8">
+                            <input numberic type="text" class="form-control" ng-model="vm.searchParams.memberTaskId" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">库位</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.storageName" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">分配者</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.updateByName" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <city-select ng-if="vm.searchParams.address" select-result="vm.searchParams.address"></city-select>
+                    <city-select ng-if="!vm.searchParams.address"></city-select>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">审计员</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.memberName" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">分配日期</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.minUpdateAt" data-max-date="{{vm.searchParams.maxUpdateAt}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 text-center">—</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.maxUpdateAt" data-min-date="{{vm.searchParams.minUpdateAt}}"
+                                   data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+                <!--状态-->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">状态</label>
+                        <div class="col-lg-8 col-md-7  col-xs-11">
+                            <select class="form-control" ng-model="vm.searchParams.status">
+                                <option value=""
+                                        ng-selected="vm.searchParams.status==''||vm.searchParams.status==undefined"
+                                        selected>全部</option>
+                                <option value="0" ng-selected="vm.searchParams.status===0">未开始</option>
+                                <option value="1" ng-selected="vm.searchParams.status===1">执行中</option>
+                                <option value="2" ng-selected="vm.searchParams.status===2">已完成</option>
+                                <option value="3" ng-selected="vm.searchParams.status===3">已重开</option>
+                                <option value="4" ng-selected="vm.searchParams.status===4">已通过</option>
+                                <option value="5" ng-selected="vm.searchParams.status===5">已通过</option>
+                                <option value="6" ng-selected="vm.searchParams.status===7">请假</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right ">
+                    <search params="vm.searchParams" ng-mousedown="vm.time(vm.searchParams.startAt,vm.searchParams.endAt)"></search>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>外勤列表</strong>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table style="min-width:850px;overflow: auto" class=" table table-hover add-table-border" border="1" >
+                <thead>
+                <tr class="grey">
+                    <th>外勤编号</th>
+                    <th>库位</th>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>地址</th>
+                    <th>分配者</th>
+                    <th>分配日期</th>
+                    <th>计划日期</th>
+                    <th>审计员</th>
+                    <th>进场时间</th>
+                    <th>状态</th>
+                    <th>人员请假</th>
+                    <th>外勤撤回</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="li in vm.list">
+                        <td>{{li.id}}</td>
+                        <td>{{li.storageName}}</td>
+                        <td>{{li.storageProvince|provinceFilter}}</td>
+                        <td>{{li.storageCity|cityFilter}}</td>
+                        <td>{{li.storageAddress}}</td>
+                        <td>{{li.updateByName}}</td>
+                        <td style="max-width:1000px">{{li.updateAt|date:'yyyy-MM-dd'}}</td>
+                        <td style="max-width:1000px">{{li.planBeginAt|date:'yyyy-MM-dd HH:mm'}}</td>
+                        <td>{{li.memberName}}</td>
+                        <td>{{li.beginAt|date:'yyyy-MM-dd HH:mm'}}</td>
+                        <td>{{li.status|outWorkTaskStatusFilter}}</td>
+                        <th>{{li.memberStatus==0?'请假':'正常'}}</th>
+                        <th>{{li.isWithdraw==0?'未撤回':'已撤回'}}</th>
+                        <td>{{li.withdrawCause}}</td>
+                        <td>
+                            <button ng-if="li.isWithdraw===false" class="btn btn-xs btn-danger" ng-click="vm.cancelOutWork(li.id,$index)">撤回</button>
+                        </td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+
+    </div>
+</div>

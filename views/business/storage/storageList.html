@@ -1,0 +1,146 @@
+<div class="panel panel-default">
+    <div  class="panel-body">
+        <form class="form-horizontal" role="form" name="form">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">名称</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.storageName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-lg-12 col-md-7 col-xs-12">-->
+                            <city-select  select-result="vm.searchParams.address"></city-select>
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">属性</label>
+                        <div class="col-lg-8 col-md-7">
+                            <select class="form-control" ng-model="vm.searchParams.atrribute">
+                                <option value="1" ng-selected="vm.searchParams.atrribute==='1'">本部库位</option>
+                                <option value="2" ng-selected="vm.searchParams.atrribute==='2'">二网库位</option>
+                                <option value="3" ng-selected="vm.searchParams.atrribute==='3'">临展库位</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">岗位</label>
+                        <div class="col-lg-8 col-md-7  col-xs-11">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.contactsPost">
+                            <span style="position: absolute;top: 6px;right: -13px;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">电话</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.contactsPhone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">联系人</label>
+                        <div class="col-lg-8 col-md-4">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.contactsName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">状态</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <select class="form-control" style="min-width: 50px;" ng-model="vm.searchParams.status">
+                                <option value="0" ng-selected="vm.searchParams.status==='0'">禁用</option>
+                                <option value="1" ng-selected="vm.searchParams.status==='1'">正常</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4 text-right pull-right">
+                    <div>
+                        <button type="reset"  class="btn btn-danger" ng-click="vm.clean(vm.searchParams)">清空</button>
+                        <button type="submit" class="btn btn-success" ng-click="vm.search(vm.searchParams)">搜索</button>
+                    </div>
+                    <!--<search params="vm.searchParams"></search>-->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>库位列表</strong>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.storageEdit({distributorId:vm.searchParams.distributorId})">+新增</button>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table class="table table-hover add-table-border storageList">
+                <thead>
+                <tr class="grey">
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>经度</th>
+                    <th>纬度</th>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>详细地址</th>
+                    <th>联系人</th>
+                    <th>岗位</th>
+                    <th>电话</th>
+                    <th>属性</th>
+                    <th>内部备注</th>
+                    <th>审计员备注</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="storage in vm.storageList track by $index">
+                        <td>{{storage.id}}</td>
+                        <td>{{storage.name}}</td>
+                        <td>{{storage.longitude}}</td>
+                        <td>{{storage.latitude}}</td>
+                        <td>{{storage.province | provinceFilter}}</td>
+                        <td>{{storage.city | cityFilter}}</td>
+                        <td>{{storage.address}}</td>
+                        <td>{{storage.contactsName}}</td>
+                        <td>{{storage.contactsPost}}</td>
+                        <td>{{storage.contactsPhone}}</td>
+                        <td>{{storage.attribute | storageFilter}}</td>
+                        <td>{{storage.internalRemark}}</td>
+                        <td>{{storage.suditorRemark}}</td>
+                        <td>{{storage.status | typeFilter}}</td>
+                        <td>
+                            <a class="btn btn-info btn-xs" ng-if="storage.attribute!=1" ui-sref="field.storageEdit({id:storage.id,distributorId:vm.searchParams.distributorId})">编辑</a>
+                            <a ng-if="storage.status === '1'" ng-click="vm.false(storage)" class="btn btn-danger btn-xs">禁用</a>
+                            <a  ng-if="storage.status === '0'" ng-click="vm.true(storage)" class="btn btn-success btn-xs">解禁</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination ng-if="vm.total" total="{{vm.total}}" totalPage="{{vm.totalPage}}"></pagination>
+    </div>
+</div>

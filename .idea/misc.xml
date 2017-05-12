@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="D:/SVN-REPO">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="svn://wx.ptteng.com/ptteng/Ocean-html" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/..">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="svn://wx.ptteng.com/ptteng/Ocean-html" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchUrls">
+                <list>
+                  <option value="svn://wx.ptteng.com/ptteng/Ocean-html/branch" />
+                  <option value="svn://wx.ptteng.com/ptteng/Ocean-html/organization" />
+                  <option value="svn://wx.ptteng.com/ptteng/Ocean-html/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="svn://wx.ptteng.com/ptteng/Ocean-html/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+        <entry key="F:/BaiduYunDownload/monitor-html">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="svn://wx.ptteng.com/ptteng/monitor-html" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+</project>

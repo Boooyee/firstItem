@@ -1,0 +1,239 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>照片   <span style="font-weight:normal;margin-left:15px;">在途已售报告：</span><span ng-repeat="report in vm.photoTab.enrouteSaledReport">{{report.enrouteSaledReportStorageAttributeName}}:{{report.enrouteSaledReportStorageCarNum}}<span ng-if="!$last">,</span></span></strong>
+    </div>
+    <!--<nav style="margin-bottom:-15px;margin-left:15px;position:relative">-->
+        <!--<div ng-click="vm.photoCheckDetail($index,list.memberTaskStorageId)" ng-class="{'top-z-index':$index === vm.target}" ng-repeat="list in vm.photoTab.memberTaskList" style="position:absolute;left:{{$index*100}}px;width:100px;padding:5px 0;border:1px solid #e8e8e8;border-radius:5px;display:inline-block;margin-right:-15px;background:white;">{{list.enrouteSaledReportStorageName}}</div>-->
+    <!--</nav>-->
+
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div>
+                <ul class="nav navbar-nav">
+                    <li style="padding:15px 5px;margin-right:20px;cursor:pointer" ng-class="{'tab-active':$index == vm.target}" ng-repeat="list in vm.photoTab.memberTaskList" ng-click="vm.photoCheckDetail($index,list.memberTaskStorageId)">{{list.memberTaskStorageName}}</li>
+                    <li style="padding:15px 5px;margin-right:20px;cursor:pointer" ng-class="{'tab-active':1000 == vm.target}" ng-click="vm.getCarsWithNoPhoto()">剩余未拍车辆:{{vm.photoTab.carsWithNoPhotos.carsWithNoPhotos}}</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="panel-body ">
+        <div class=" border clearfix">
+            <div class="panel-body col-md-6 margin-top-30">
+                <div class="table-responsive border text-center">
+                    <table  class="table table-hover add-table-border ">
+                        <thead>
+                        <tr class="grey">
+                            <th>序号</th>
+                            <th>Vin码</th>
+                            <th>类型</th>
+                            <th>审计结果</th>
+                            <th>备注</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-if="vm.target && vm.target ==1000">
+                        <!--剩余未拍车辆-->
+                        <tr ng-if="vm.target==1000" ng-repeat="carsWithNoPhotosJson in vm.photoTab.carsWithNoPhotos.carsWithNoPhotosJson" style="cursor:pointer" ng-class="{'active-photo-list':1==vm.photoRightIndex,'photo-tr-disabled':vm.photoTab.memberTaskList[vm.target].memberTaskStatus!=1}">
+                            <td>{{$index+1}}</td>
+                            <td>{{carsWithNoPhotosJson.value}}</td>
+                            <td>{{carsWithNoPhotosJson.type=='inventory'?'盘库':'倒查'}}</td>
+                            <td>—</td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                        <tbody ng-if="(vm.target||vm.target ==0) && vm.target !=1000">
+                        <!--合影-->
+                        <tr style="cursor:pointer" ng-class="{'active-photo-list':1==vm.photoRightIndex,'photo-tr-disabled':vm.photoCheckDetailList.memberStorage.status!=1}" ng-click="vm.photoRightDetail(1,1,vm.photoCheckDetailList.memberStorage.status)">
+                            <td>1</td>
+                            <td>{{vm.photoCheckDetailList.memberStorage.memberStorageName}} - 合影</td>
+                            <td>综合</td>
+                            <td>—</td>
+                            <td></td>
+                        </tr>
+                        <!--在途一首报告-->
+                        <tr ng-if="vm.photoTab.memberTaskList[vm.target].memberTaskStorageAttribute==1" style="cursor:pointer" ng-class="{'active-photo-list':2==vm.photoRightIndex,'photo-tr-disabled':vm.photoCheckDetailList.enrouteSaledReport.enrouteSaledReportStatus===2}" ng-click="vm.photoRightDetail(2,2,vm.photoCheckDetailList.enrouteSaledReport.enrouteSaledReportStatus)">
+                            <td>2</td>
+                            <td>在途已售报告</td>
+                            <td>综合</td>
+                            <td>—</td>
+                            <td></td>
+                        </tr>
+                        <!--其他的-->
+                        <tr style="cursor:pointer" ng-class="{'active-photo-list':($index+3)==vm.photoRightIndex,'photo-tr-disabled':photo.status!=1}" ng-repeat="photo in vm.photoList" ng-click="vm.photoRightDetail($index+3,'',photo.status)">
+                            <td ng-if="vm.photoTab.memberTaskList[vm.target].memberTaskStorageAttribute==1">{{$index+3}}</td>
+                            <td ng-if="vm.photoTab.memberTaskList[vm.target].memberTaskStorageAttribute!=1">{{$index+2}}</td>
+                            <td>{{photo.vinNo}}</td>
+                            <td ng-if="photo.type==1">盘库</td>
+                            <td ng-if="photo.type==2">倒查</td>
+                            <td ng-if="photo.type==1">{{photo.auditResult|auditResultFilter}}</td>
+                            <td ng-if="photo.type==2">{{photo.auditResult|inspectFilter}}</td>
+                            <td>{{photo.comment}}</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <!--<pagination ng-if="vm.total" total="{{vm.total}}"></pagination>-->
+                </div>
+                <div class="margin-top-35 middle">
+                    <button ng-disabled="vm.photoTab.memberTaskList[vm.target].memberTaskStatus!=3" ng-click="vm.photoCheckModal()" class="btn btn-success text-center" style="margin-bottom:10px;">网点审核</button>
+                </div>
+
+            </div>
+
+            <div ng-if="(vm.rightPhoto||vm.saledReportList) && vm.closeRight===false" class=" col-md-6 panel-body margin-top-30">
+                <!--合影-->
+                <div class="border clearfix" ng-repeat="memberStorageImg in vm.rightPhoto.memberStorageImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(memberStorageImg.url)" src="{{memberStorageImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{memberStorageImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="border clearfix" ng-repeat="memberStoragekeyImg in vm.rightPhoto.memberStoragekeyImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(memberStoragekeyImg.url)"  src="{{memberStoragekeyImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{memberStoragekeyImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--在途已售报告-->
+                <div class="border clearfix" ng-repeat="blankBillImg in vm.saledReportList.enrouteSaledReport.blankBillImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(blankBillImg.url)"  src="{{blankBillImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{blankBillImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border clearfix" ng-repeat="blankOutStorageImg in vm.saledReportList.enrouteSaledReport.blankOutStorageImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(blankOutStorageImg.url)"  src="{{blankOutStorageImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{blankOutStorageImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border clearfix" ng-repeat="distributorSignImg in vm.saledReportList.enrouteSaledReport.distributorSignImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(distributorSignImg.url)"  src="{{distributorSignImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{distributorSignImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="border clearfix col-md-12" style="padding-top:10px;padding-bottom:10px;" ng-if="vm.saledReportList">
+                    <p>报告简述：</p>
+                    <p><span ng-repeat="carNumInfo in vm.saledReportList.carNumInfo">{{carNumInfo.type}}:{{carNumInfo.value}}<span ng-if="!$last">&nbsp; , &nbsp;</span></span></p>
+                    <p>已售:{{vm.saledReportList.enrouteSaledReport.saledNum}} 在途:{{vm.saledReportList.enrouteSaledReport.enrouteNum}} </p>
+                    <p ng-repeat="enrouteSaledInventorys in vm.saledReportList.enrouteSaledInventorys"> {{enrouteSaledInventorys.type|enrouteSaledInventorysFilter}}:{{enrouteSaledInventorys.value}}<span ng-if="!$last">&nbsp; , &nbsp;</span></p>
+                </div>
+
+
+
+
+
+
+
+
+
+                <div class="border clearfix" ng-repeat="vinNoImg in vm.rightPhoto.vinNoImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(vinNoImg.url)" src="{{vinNoImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{vinNoImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border clearfix" ng-repeat="removeStorageImg in vm.rightPhoto.removeStorageImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(removeStorageImg.url)" src="{{removeStorageImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{removeStorageImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border clearfix" ng-repeat="mileageImg in vm.rightPhoto.mileageImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(mileageImg.url)" src="{{mileageImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{mileageImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border clearfix" ng-repeat="nameplateImg in vm.rightPhoto.nameplateImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(nameplateImg.url)" src="{{nameplateImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{nameplateImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border clearfix" ng-repeat="carImg in vm.rightPhoto.carImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(carImg.url)" src="{{carImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{carImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border clearfix" ng-repeat="otherImg in vm.rightPhoto.otherImg">
+                    <div class="col-md-6 img-responsive relative margin-top-20 text-center">
+                        <div class="row">
+                            <img ng-click="vm.scaleImg(otherImg.url)" src="{{otherImg.url}}" alt="" class="col-md-12 col-sm-12 col-xs-12 pointer">
+                            <span >{{otherImg.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="panel-body border clearfix">
+                    <div class="row" ng-hide="vm.detailType<=2">
+                        <label class="control-label col-md-2">说明</label>
+                        <div class="col-md-10">
+                            <textarea rows="4" class="form-control" maxlength="100" disabled>{{vm.rightPhoto.comment}}</textarea>
+                        </div>
+                    </div>
+
+                    <div  class=" margin-top-20">
+                        <button class="btn btn-info text-center" ng-click="vm.rePhoto()" style="margin-bottom:10px;">重拍</button>
+                        <button class="btn btn-danger text-center" ng-click="vm.closeRight=true;vm.photoRightIndex=-1" style="margin-bottom:10px;">关闭</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+</div>

@@ -1,0 +1,350 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">任务编号</label>
+                        <div class="  col-md-8">
+                            <input numberic type="text" class="form-control" ng-model="vm.searchParams.id">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">经销商</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.distributorShortName">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">团队</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.teamName">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">计划日期</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.minPlanBeginAt"
+                                   data-max-date="{{vm.searchParams.maxPlanBeginAt}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 text-center">—</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.maxPlanBeginAt"
+                                   data-min-date="{{vm.searchParams.minPlanBeginAt}}"
+                                   data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">创建时间</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.minCreateAt"
+                                   data-max-date="{{vm.searchParams.maxCreateAt}}" data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 text-center">—</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.maxCreateAt"
+                                   data-min-date="{{vm.searchParams.minCreateAt}}"
+                                   data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">状态</label>
+                        <div class="col-lg-8 col-md-7  col-xs-11">
+                            <select class="form-control" ng-model="vm.searchParams.status">
+                                <option value=""
+                                        ng-selected="vm.searchParams.status==''||vm.searchParams.status==undefined"
+                                        selected>全部
+                                </option>
+                                <option ng-repeat="(key,value) in vm.statusList" value="{{key}}"
+                                        ng-selected="vm.searchParams.status===key">{{value}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 text-right ">
+                    <search params="vm.searchParams"
+                            ng-mousedown="vm.time(vm.searchParams.startAt,vm.searchParams.endAt)"></search>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>任务列表</strong>
+
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.taskAdd">+新增</button>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.taskImport">数据导入</button>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ng-click="vm.getListExcel()">exl</button>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ng-click="vm.refresh()">更新</button>
+
+    </div>
+    <div class="panel-body">
+
+        <div class="table-responsive border" style="min-height:80vh">
+            <table style="min-width:850px;overflow: auto" class="ellipsis table table-hover add-table-border"
+                   border="2">
+                <thead>
+                <!--第一行tr-->
+                <tr class="grey" ng-repeat-start="one in vm.params.config">
+                    {{top.show}}
+                    <th colspan="{{top.colspan}}" ng-if="!top.name||top.show===true" ng-repeat="top in one.top">
+                        {{top.name}}
+                    </th>
+                    <th></th>
+                </tr>
+                <!--第二行tr-->
+                <tr class="grey" ng-repeat-end>
+                    <th class="dropdown-toggle dropdown" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" ng-if="bottom.show===true" colspan="{{bottom.colspan}}"
+                        ng-repeat="bottom in one.bottom">
+
+                        <div class="btn-group">
+                            <div ng-click="vm.target = $index" class="dropdown-toggle dropdown" data-toggle="dropdown"
+                                 aria-haspopup="false"
+                                 aria-expanded="true">{{bottom.name}}
+                                <span class="caret"></span>
+                            </div>
+
+                            <!--<div ng-if="!vm.params.config.data.bottom[$index].parentId" class="dropdown-toggle dropdown">{{bottom.name}}</div>-->
+
+                            <ul class="dropdown-menu  dropdown-menu1">
+                                <li><a class="dropdown-toggle" ng-click="vm.sort('asc',$event)">正序</a></li>
+                                <li><a class="dropdown-toggle" ng-click="vm.sort('desc',$event)">倒序</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li class="dropdown "><a>列表<span class="triangle-right float-right"></span></a>
+                                    <ul class=" dropdown-menu menu-top thirdTitle dropdown-menu1"
+                                        ng-repeat="data in vm.params.config">
+                                        <li ng-mouseover="vm.getNode(toptitle.id,$event)" style="padding:3px 20px"
+                                            ng-if="toptitle.name" ng-repeat="toptitle in data.top"
+                                            class="dropdown-submenu">
+                                            <input ng-click="vm.stopPropagation($event)"
+                                                   ng-change="vm.nodeChange(0,toptitle.id,$event)"
+                                                   ng-model="toptitle.show" style="margin-right:1rem;"
+                                                   type="checkbox"><label>{{toptitle.name}}</label>
+                                            <span class="triangle-right float-right"></span>
+                                            <!--三级菜单-->
+                                            <ul class="dropdown-menu dropdown-menu1"
+                                                ng-click="vm.stopPropagation($event)">
+                                                <li ng-repeat="node in vm.daughterNodeParams" style="padding:3px 20px">
+                                                    <input style="margin-right:1rem;"
+                                                           ng-change="vm.nodeChange(1,node.id,$event)"
+                                                           ng-model="node.show"
+                                                           type="checkbox">{{node.name}}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <!--二级菜单 下半部分-->
+                                        <li ng-if="!bottomtitle.parentId" style="padding:3px 20px"
+                                            ng-repeat="bottomtitle in data.bottom"
+                                            ng-click="vm.stopPropagation($event)"><input
+                                                ng-click="vm.stopPropagation($event)" style="margin-right:1rem;"
+                                                ng-model="bottomtitle.show"
+                                                ng-change="vm.nodeChange(1,toptitle.id,$event)" type="checkbox"
+                                                aria-label="..."><span>{{bottomtitle.name}}</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <!--<th style="max-width:300px;">操作</th>-->
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr ng-repeat="list in vm.params.content">
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[0].show===true">
+                        {{list.id}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[1].show===true">
+                        {{list.status|venderTaskStatusFilter}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[2].show===true">
+                        {{list.venderName}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[3].show===true">
+                        {{list.distributorId}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[4].show===true">
+                        {{list.distributorProvince|provinceFilter}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[5].show===true">
+                        {{list.distributorCity|cityFilter}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[6].show===true">
+                        {{list.distributorShortName}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[7].show===true">
+                        {{list.distributorName}}
+                    </td>
+
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[8].show===true">
+                        {{list.planBeginAt|date:'yyyy-MM-dd'}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[9].show===true">
+                        {{list.eachTeamName}}
+                    </td>
+
+                    <!--拍照数=盘库数+倒查数    盘库率=盘库数/盘库总数   倒查率=倒查数/倒查总数  拍照率=（盘库数+倒查数）/（盘库总数+倒查总数）-->
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[10].show===true">
+                        {{list.inventoryNum/list.inventoryTotalNum*100||0 | decimalOne}}%<!--盘库率-->
+
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[11].show===true">
+                        {{list.inspectNum/list.inspectTotalNum*100||0 | decimalOne}}%<!--倒查率-->
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[12].show===true">
+                        {{(list.inventoryNum +list.inspectNum)/(list.inventoryTotalNum +
+                        list.inspectTotalNum)*100||0 | decimalOne}}%  <!--拍照率-->
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[13].show===true">
+                        {{list.createAt|date:'yyyy-MM-dd HH:mm'}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[14].show===true">
+                        {{list.createByName}}
+                    </td>
+
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[15].show===true">
+                        {{list.inventoryNum}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[16].show===true">
+                        {{list.inspectNum}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[17].show===true">
+                        {{list.inventoryNum+list.inspectNum}}
+                    </td>
+
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[18].show===true">
+                        {{list.distributeAt|date:'yyyy-MM-dd HH:mm'}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[19].show===true">
+                        {{list.distributeByName}}
+                    </td>
+
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[20].show===true">
+                        {{list.beginAt|date:'yyyy-MM-dd HH:mm'}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[21].show===true">
+                        {{list.distributeNum}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[22].show===true">
+                        {{list.endAt|date:'yyyy-MM-dd HH:mm'}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[23].show===true">
+                        {{list.completeNum}}
+                    </td>
+
+
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[24].show===true">
+                        {{list.closeAt|date:'yyyy-MM-dd HH:mm'}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[25].show===true">
+                        {{list.closeByName}}
+                    </td>
+
+
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[26].show===true">
+                        {{list.comment}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[27].show===true">
+                        {{list.otherNum}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[28].show===true">
+                        {{list.secondBreakRuleNum}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[29].show===true">
+                        {{list.storageBreakRuleNum}}
+                    </td>
+                    <td style="max-width: 1000px" ng-if="vm.params.config.data.bottom[30].show===true">
+                        {{list.breakdownNum}}
+                    </td>
+                    <td style="max-width:300px;">
+                        <button class="btn btn-xs btn-success" ng-click="vm.taskListOverview(list)">总览</button>
+                        <span ng-if="list.status == 3 ||list.status == 0 ||list.status == 1||list.status == 2||list.status==4">
+                        <button ng-click="vm.cancelRedMark(list.id,'field.outworkList',{type:0})" class="btn btn-xs btn-success">外勤
+                        </button>
+                        <div ng-if="list.photoNum && list.memberNum>0"  style="height:16px;width:16px;border-radius:16px;line-height:16px;display:inline-block;text-align:center;font-size:0.1em;color:#fff;background:red; position: relative;top: -8px;right: 3px;">
+                            {{list.memberNum}}
+                        </div>
+                        </span>
+
+                        <button ng-if="list.status == 3 ||list.status == 0 ||list.status == 1||list.status == 2"
+                                class="btn btn-xs btn-success"
+                                ui-sref="field.allotTask({venderTaskId:list.id,distributorId:list.distributorId})">分配
+                        </button>
+                        <button ng-if="list.status == 3 ||list.status == 0 ||list.status == 1||list.status == 2"
+                                class="btn btn-xs btn-success" ng-click="vm.toDetail(list)">编辑
+                        </button>
+
+                        <span ng-if="list.status == 3 ||list.status == 0 ||list.status == 1||list.status == 2||list.status==4">
+                            <button ng-click="vm.cancelRedMark(list.id,'field.photoCheck',{type:1})" class="btn btn-xs btn-success"
+                                    ng-disabled="list.status==0||list.status==1">照片
+                            </button>
+                            <div ng-if="list.photoNum && list.photoNum>0" style="height:16px;width:16px;border-radius:16px;line-height:16px;display:inline-block;text-align:center;font-size:0.1em;color:#fff;background:red; position: relative;top: -8px;right: 3px;">
+                                {{list.photoNum}}
+                            </div>
+                        </span>
+
+                        <button ng-if="list.status == 2||list.status == 3" class="btn btn-xs btn-success"
+                                ng-click="vm.venderTaskFinish(list.id)">完成
+                        </button>
+                        <button ng-if="list.status == 1||list.status == 0" class="btn btn-xs btn-danger"
+                                ng-click="vm.venderTaskCancel(list.id)">取消
+                        </button>
+                    </td>
+                </tr>
+
+                </tbody>
+
+
+            </table>
+
+        </div>
+
+
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+
+    </div>
+</div>

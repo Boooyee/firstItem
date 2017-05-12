@@ -1,0 +1,67 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>申报详情</strong>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">姓名</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.late.memberName" ng-disabled = true>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">从属团队</label>
+                        <div class="col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.late.teamName" ng-disabled = true>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">任务编号</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.late.taskId" ng-disabled = true>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="clear: both;" class="col-lg-10" >
+                    <div class="form-group">
+                        <label class="control-label col-lg-2 col-md-2">申报原因</label>
+                        <div class="col-lg-10 col-md-7">
+                            <textarea rows="4" class="form-control"  ng-model="vm.late.reason" ng-disabled = true
+                                      maxlength="100" ></textarea>
+                            <span style="position: absolute;right: 30px;bottom: 0;color: gray;">{{vm.late.reason.length?vm.late.reason.length:0}}/100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="clear: both;" class="col-lg-10" >
+                        <label class="control-label col-lg-2 col-md-2">实景照片:&nbsp&nbsp</label>
+                <div ng-repeat="item in vm.result track by $index ">
+                        <img style="cursor: pointer" class="col-lg-2 col-md-2 col-xs-12 col-sm-12 img-responsive" ng-click = vm.img(item) src={{item}}>
+                </div>
+                </div>
+            </div>
+
+            <div style="clear:both;padding-top:3rem;" class="middle">
+                <div class="btn-group">
+                    <button type="submit"  class="btn btn-info" ui-sref="field.lateList">返回</button>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" ng-if="vm.show"  ng-click="vm.pass(vm.late)" class="btn btn-success">同意</button>
+                </div>
+                <div class="btn-group">
+                    <button ng-if="vm.show" ng-click="vm.refuse(vm.late)" class="btn btn-danger">拒绝</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

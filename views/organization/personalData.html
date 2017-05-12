@@ -1,0 +1,107 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div ng-repeat="data1 in vm.params track by $index">
+            <div class="col-md-6" ng-repeat="img in data1">
+                <span>{{img.name}}</span>
+                <img ng-click="vm.imgScale(img.url)" style="width:400px;height:400px;" src="{{img.url}}" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-heading">
+        <strong>个人资质</strong>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" name="task" novalidate>
+            <div class="row" ng-if="!vm.urlParams.venderTaskId">
+                <div class="form-group">
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <th>名称</th>
+                                        <th>图片名</th>
+                                        <th>文件大小</th>
+                                        <th>进度</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                        <th>操作</th>
+                                        </thead>
+                                        <tbody  ng-repeat="item1 in vm.uploaderList track by $index">
+
+                                        <tr ng-repeat='item2 in item1.upload track by $index'>
+                                                <td><strong class="ng-binding">{{item1.name}}</strong></td>
+                                                <td><strong>{{item2.uploader.queue[0].file.name}}</strong></td>
+                                                <td ng-show="item2.uploader.isHTML5" nowrap="" class="ng-binding">{{
+                                                    item2.uploader.queue[0].file.size/1024/1024 | number:2 }} MB
+                                                </td>
+                                                <td ng-show="item2.uploader.isHTML5">
+                                                    <div class="progress" style="margin-bottom: 0;">
+                                                        <div class="progress-bar" role="progressbar"
+                                                             ng-style="{ 'width': item2.uploader.progress + '%' }"></div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                <span ng-show="item2.uploader.queue[0].isSuccess"><i
+                                                        class="glyphicon glyphicon-ok"></i></span>
+                                                <span ng-show="item2.uploader.queue[0].isCancel"><i
+                                                        class="glyphicon glyphicon-ban-circle"></i></span>
+                                                    <span ng-show="item2.uploader.queue[0].isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                                </td>
+
+                                                <td nowrap="">
+
+                                                    <label class="btn btn-primary btn-xs" for="file{{($index+1000)*item1.uploaderId}}">选择文件</label>
+                                                    <input id="file{{($index+1000)*item1.uploaderId}}" style="display: none" type="file" nv-file-select
+                                                           uploader="item2.uploader" ng-click="vm.clearUpload(item2.uploader)" required/>
+                                                    <button type="button" class="btn btn-success btn-xs"
+                                                            ng-click="item2.uploader.queue[0].upload();item2.uploader.queue[0].myType= item1.type"
+                                                            ng-disabled="!item2.uploader.queue[0]||item2.uploader.queue[0].isReady || item2.uploader.queue[0].isUploading || item2.uploader.queue[0].isSuccess">
+                                                        <span class="glyphicon glyphicon-upload"></span> 上传
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-xs" ng-disabled="!item2.uploader.queue[0]"
+                                                            ng-click="vm.clearTheImg(item1.type,item2.uploader.queue[0].file.lastModifiedDate);item2.uploader.queue[0].remove()">
+                                                        <span class="glyphicon glyphicon-trash"></span> 删除
+                                                    </button>
+                                                </td>
+
+                                            <td>
+                                                <button class="btn btn-xs btn-default" ng-if="$first " ng-click="vm.addOrReduce(item1.upload,'add')"> + </button>
+                                                <button class="btn btn-xs btn-danger" ng-if="item1.upload.length>1&& !first" ng-click="vm.addOrReduce(item1.upload,'reduce',item2Index)"> - </button>
+                                            </td>
+
+
+                                        </tr>
+
+
+
+
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <button class="btn btn-danger btn-md" ng-click="vm.cancel()">取消</button>
+                                        <button class="btn btn-success btn-md" ng-click="vm.submit()">确定</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,161 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">公司名称</label>
+                        <div class="  col-md-10">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.companyName" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">公司简称</label>
+                        <div class=" col-md-8">
+                            <input   type="text" class="form-control" ng-model="vm.searchParams.companyShortName" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">本部数</label>
+                        <div class=" col-md-8 col-xs-11">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.selfStorageNum" numberic>
+                            <span style="position: absolute;top: 6px;right: -13px;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">状态</label>
+                        <div class=" col-md-8  col-xs-11">
+                            <select class="form-control" ng-model="vm.searchParams.status">
+                                <option value="">全部</option>
+                                <option value="1" >正常</option>
+                                <option value="0" >禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">联系人</label>
+                        <div class=" col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.contactsName">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">电话</label>
+                        <div class=" col-md-8 col-xs-11">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.contactsPhone">
+                            <span style="position: absolute;top: 6px;right: -13px;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">二网数</label>
+                        <div class=" col-md-8  col-xs-11">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.secondStorageNum" numberic>
+                            <span style="position: absolute;top: 6px;right: -13px;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">临展数</label>
+                        <div class=" col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.tempStorageNum" numberic>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <city-select  select-result="vm.searchParams.address" ></city-select>
+
+                </div>
+
+                <div class="col-md-4 text-right ">
+                    <search params="vm.searchParams"></search>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>经销商列表</strong>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.dealersDetail">+新增</button>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border ">
+            <table style="min-width:850px;overflow: auto" class="table table-hover add-table-border ellipsis">
+                <thead>
+                <tr class="grey">
+                    <th>编号</th>
+                    <th >公司名称</th>
+                    <th>公司简称</th>
+                    <th>省</th>
+                    <th>市</th>
+                    <th>本部数</th>
+                    <th>二网数</th>
+                    <th>临展数</th>
+                    <th>联系人</th>
+                    <th>岗位</th>
+                    <th>电话</th>
+                    <th>内部备注</th>
+                    <th>审计员备注</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in vm.teamList">
+                    <td>{{item.id}}</td>
+                    <td class="ellipsis">{{item.companyName}}</td>
+                    <td class="ellipsis">{{item.companyShortName}}</td>
+                    <td>{{item.provinceName}}</td>
+                    <td>{{item.cityName}}</td>
+                    <td>{{item.selfStorageNum}}</td>
+                    <td>{{item.secondStorageNum}}</td>
+                    <td>{{item.tempStorageNum}}</td>
+                    <td>{{item.contactsName}}</td>
+                    <td>{{item.contactsPost}}</td>
+                    <td>{{item.contactsPhone}}</td>
+                    <td class="ellipsis">{{item.internalRemark}}</td>
+                    <td class="ellipsis">{{item.suditorRemark}}</td>
+                    <td>{{item.status==0?'禁用':'正常'}}</td>
+                    <td>
+                        <button class="btn btn-info btn-xs" ui-sref="field.storageList({distributorId:item.id})">库位</button>
+                        <button class="btn btn-primary btn-xs" ui-sref="field.dealersDetail({id:item.id})">编辑</button>
+
+                        <button class="btn btn-xs btn-success"
+                                ng-if=" item.status ==0" ng-click="vm.outBan(item.id,item.status)">解禁</button>
+                        <button class="btn btn-xs btn-danger"
+                                ng-if=" item.status ==1" ng-click="vm.inBan(item.id,item.status)">禁用</button>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+    </div>
+</div>

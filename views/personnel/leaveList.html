@@ -1,0 +1,122 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">姓名</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.memberName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 text-center">开始时间</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.startAt">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">天数</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.days">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">电话</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="text" class="form-control" minlength="8" maxlength="11" ng-model="vm.searchParams.memberPhone">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 text-center">申请时间</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.submitAt">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">状态</label>
+                        <div class="col-lg-8  col-md-7">
+                            <select class="form-control" style="min-width: 50px;"
+                                    ng-model="vm.searchParams.verifyStatus">
+                                <option value=""
+                                        ng-selected="vm.searchParams.verifyStatus==''||vm.searchParams.verifyStatus==undefined"
+                                        selected>全部
+                                </option>
+                                <option value="1" ng-selected="vm.searchParams.verifyStatus===1">通过</option>
+                                <option value="2" ng-selected="vm.searchParams.verifyStatus===2">拒绝</option>
+                                <option value="0" ng-selected="vm.searchParams.verifyStatus===0">未审核</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right pull-right">
+                    <search params="vm.searchParams"></search>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>请假申请</strong>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table style="min-width:850px;overflow: auto" class="table table-hover add-table-border">
+                <thead>
+                    <tr class="grey">
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>电话</th>
+                        <th>开始日期</th>
+                        <th>天数</th>
+                        <th>申请时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="leave in vm.leaveList">
+                        <td>{{leave.id}}</td>
+                        <td>{{leave.memberName}}</td>
+                        <td>{{leave.memberPhone}}</td>
+                        <td>{{leave.startAt | date:'yyyy-MM-dd'}}</td>
+                        <td>{{leave.days | daysFilter}}</td>
+                        <td>{{leave.submitAt | date:'yyyy-MM-dd'}}</td>
+                        <td>{{leave.verifyStatus | levelFilter}}</td>
+                        <td>
+                            <a ui-sref="field.leaveEdit({id:leave.id,status:leave.verifyStatus})" class="btn btn-xs btn-info">查看</a>
+                            <a ng-if="leave.verifyStatus == 0"  ng-click="vm.pass(leave)" class="btn btn-xs btn-success">通过</a>
+                            <a ng-if="leave.verifyStatus == 0"  ng-click="vm.refuse(leave)" class="btn btn-xs btn-danger">拒绝</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+    </div>
+</div>

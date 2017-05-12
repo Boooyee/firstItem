@@ -1,0 +1,217 @@
+<style type="text/css">
+    body, html{
+        width: 100%;
+        height: 100%;
+        margin:0;
+        font-family:"微软雅黑";
+        font-size:14px;
+    }
+    #l-map {
+        width:100%;
+        height:300px;
+        overflow: hidden;
+    }
+    #result{
+        width:100%;
+    }
+    li{
+        line-height:28px;
+    }
+    .cityList{
+        height: 320px;
+        width:372px;
+        overflow-y:auto;
+    }
+    .sel_container{
+        z-index:9999;
+        font-size:12px;
+        position:absolute;
+        right:0px;
+        top:0px;
+        width:140px;
+        background:rgba(255,255,255,0.8);
+        height:30px;
+        line-height:30px;
+        padding:5px;
+    }
+    .map_popup {
+        position: absolute;
+        z-index: 200000;
+        width: 382px;
+        height: 344px;
+        right:0px;
+        top:40px;
+    }
+    .map_popup .popup_main {
+        background:#fff;
+        border: 1px solid #8BA4D8;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        width: 100%;
+        z-index: 2;
+    }
+    .map_popup .title {
+        background: url("http://map.baidu.com/img/popup_title.gif") repeat scroll 0 0 transparent;
+        color: #6688CC;
+        font-weight: bold;
+        height: 24px;
+        line-height: 25px;
+        padding-left: 7px;
+    }
+    .map_popup button {
+        background: url("http://map.baidu.com/img/popup_close.gif") no-repeat scroll 0 0 transparent;
+        cursor: pointer;
+        height: 12px;
+        position: absolute;
+        right: 4px;
+        top: 6px;
+        width: 12px;
+    }
+</style>
+
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>分配任务</strong>
+    </div>
+    <div class="panel-body relative clearfix" style="min-height:400px;">
+
+        <div class="allotTask-map col-md-4">
+            <!--百度地图-->
+            <div id="l-map"></div>
+
+            <!--城市列表-->
+            <div class="sel_container"><strong id="curCity">北京市</strong> [<a id="curCityText" href="javascript:void(0)">更换城市</a>]</div>
+            <div class="map_popup" id="cityList" style="display:none;">
+                <div class="popup_main">
+                    <div class="title">城市列表</div>
+                    <div class="cityList" id="citylist_container"></div>
+                    <button id="popup_close"></button>
+                </div>
+            </div>
+            <!--百度地图结束-->
+
+        </div>
+
+
+        <form class="form-horizontal" name="allotTask">
+            <div class="row" style="padding-top:15px;">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">审计员</label>
+                        <div class="  col-md-8">
+                            <input ng-change="vm.allotSearchName(vm.searchParams.memberName)" type="text" class="form-control" ng-model="vm.searchParams.memberName">
+                            <div ng-if="vm.members && vm.members.length>0" style="width:100%;height:130px;border:1px solid #e8e8e8;overflow:scroll">
+                                <div ng-class="{'detail-list-hover':vm.choiceMember.id==member.id}" style="padding:10px;cursor:pointer" class="detail-list" ng-click="vm.allotDetailList(member)" ng-repeat="member in vm.members">{{member.name}}-{{member.account}} <span ng-if="member.status===0">(请假)</span></div>
+                            </div>
+                            <div class="margin-top-5 text-red" ng-if="vm.members.length==0">无符合条件审计员</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="vm.params && vm.members">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4"></label>
+                        <div class="  col-md-8">
+                            已连续审计经销商{{vm.params.continueDays}}次
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="control-label  col-md-2">库位</label>
+
+                        <div class="col-md-10">
+
+                            <label ng-repeat="team in vm.storagesList" class="radio inline-block  col-md-4">
+                                <input ng-disabled="team.hasDistributed===true" style="margin-right:5px" type="checkbox"  name="isBuyLimit"
+                                       value="{{team.id}}" ng-model="team.choice" >{{team.name}}
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="control-label  col-md-2"></label>
+                        <div class="  col-md-8 " style="font-size: 12px;">
+                            如要重新分配某网点，请先撤回上次分配审计员
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row" ng-if="vm.params">
+                <div class="panel-body col-md-7 border " style="margin-left:58px; margin-top:15px;">
+                    <div class="table-responsive">
+                        <table style="max-width:690px;overflow: auto" class=" table table-hover add-table-border" border="1" >
+                            <thead>
+                            <tr class="grey">
+                                <th>分配日期</th>
+                                <th>经销商</th>
+                                <th>库位</th>
+                                <th>省</th>
+                                <th>市</th>
+                                <th>进场时间</th>
+                            </tr>
+                            </thead>
+                            <tbdoy>
+                                <tr  ng-repeat="list in vm.params.memberTasks">
+                                    <td>{{list.createAt|date:'yyyy-MM-dd'}}</td>
+                                    <td>{{list.distributorName}}</td>
+                                    <td>{{list.storageName}}</td>
+                                    <td>{{list.storageProvince|provinceFilter}}</td>
+                                    <td>{{list.storageCity|cityFilter}}</td>
+                                    <td>{{list.beginAt|date:'yyyy-MM-dd mm:ss'}}</td>
+
+                                </tr>
+                            </tbdoy>
+
+                        </table>
+                    </div>
+
+
+                    <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 margin-top-20">
+                    <button style="margin-left:20%" class="btn btn-danger " ui-sref="field.taskList">取消</button>
+                    <button class="btn btn-success"
+                            ng-click="vm.submitAllotDetail()"
+                            repeat-click
+                            type="button"  ng-disabled="allotTask.$invalid||vm.params.continueDays>=3||!vm.choiceMember">确认
+
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+
+
+
+
+</div>

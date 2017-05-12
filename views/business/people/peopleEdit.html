@@ -1,0 +1,71 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong ng-if="vm.exist2">新增员工</strong>
+            <strong ng-if="vm.exist">编辑员工</strong>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" name="form">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">名称</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.params.name" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">电话</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="text" class="form-control" maxlength="11" ng-model="vm.params.phone"
+                                   placeholder="请输入手机号码" name="mobile" numberic required>
+                            <span class="error" ng-show="form.mobile.$error.pattern">格式有误</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">账号</label>
+                            <div class=" col-lg-8 col-md-7">
+                                <input type="text" class="form-control" ng-model="vm.params.account" data-name="name"
+                                       minlength="6" maxlength="16" placeholder="请输入6-16数字或字母" no-chinese required>
+                                <span class="error" ng-show="form.name.$error.pattern">请输入6-16数字或字母</span>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">密码</label>
+                            <div class=" col-lg-8 col-md-7">
+                                <input type="password" class="form-control" ng-model="vm.params.pwd" data-name="pwd"
+                                       minlength="6" maxlength="16" placeholder="请输入6-16数字或字母" no-chinese required>
+                                <span class="error" ng-show="form.pwd.$error.pattern">请输入6-16数字或字母</span>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="teamId col-md-5" hidden>
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">团队ID</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input class="form-control" ng-model="vm.params.teamId">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle">
+                <div class="btn-group">
+                    <button type="reset" class="btn btn-danger" ui-sref="field.peopleList({teamId:vm.params.teamId})">取消</button>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-success" ng-click="submit(vm.params)" ng-disabled="form.$invalid">确认</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

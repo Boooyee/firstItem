@@ -1,0 +1,232 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong ng-show="!vm.exist">新增经销商</strong>
+        <strong ng-show="vm.exist">编辑经销商</strong>
+    </div>
+    <div class="panel-body">
+        <!--产品详情-->
+        <form class="form-horizontal" name="dealersAdd"  novalidate>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="control-label col-md-2"><span class="star">*</span>公司名称</label>
+                        <div class="col-md-10">
+                            <input class="form-control"
+                                   name="name"
+                                   ng-model="vm.params.companyName"
+                                   required
+                                   type="text">
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.name.$error" ng-if=" dealersAdd.name.$touched || show_error">
+                                <span ng-message="required">请输入公司名称</span>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>公司简称</label>
+                        <div class="col-md-8 col-xs-11">
+                            <input class="form-control" name="shortName" ng-model="vm.params.companyShortName"
+                                   ng-disabled="exist"
+                                   autocomplete="off"
+                                   required
+                                   type="text">
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.shortName.$error" ng-if=" dealersAdd.shortName.$touched || show_error">
+                                <span ng-message="required">请输入公司简称</span></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>联系人</label>
+                        <div class="col-md-8">
+                            <input class="form-control"
+                                   name="contactsName"
+                                   ng-model="vm.params.contactsName"
+                                   required ng-disabled="exist" type="text">
+
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.contactsName.$error" ng-if=" dealersAdd.contactsName.$touched || show_error">
+                                <span ng-message="required">请输入联系人</span></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>岗位</label>
+                        <div class="col-md-8 col-xs-11">
+                            <input class="form-control" name="contactsPost" ng-model="vm.params.contactsPost"
+
+                                   required ng-disabled="exist"
+                                   autocomplete="off"
+                                   type="text">
+
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.contactsPost.$error" ng-if="dealersAdd.contactsPost.$touched || show_error">
+                                <span ng-message="required">请输入岗位</span>
+                                </span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>电话</label>
+                        <div class="col-md-8 col-xs-11">
+                            <input class="form-control" name="contactsPhone" ng-model="vm.params.contactsPhone"
+                                   ng-disabled="exist"
+                                   numberic
+                                   maxlength="11"
+                                   minlength="11"
+                                   autocomplete="off"
+                                   required
+                                   type="text">
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.contactsPhone.$error" ng-if="dealersAdd.contactsPhone.$touched || show_error">
+                                <span ng-message="required">请输入电话</span>
+                                <span ng-message="minlength">请核对电话位数</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>纬度</label>
+                        <div class="col-md-8">
+                            <input class="form-control"
+                                   numberic
+                                   name="latitude"
+                                   ng-model="vm.params.latitude"
+                                   required ng-disabled="exist" type="text" maxlength="10">
+
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.latitude.$error" ng-if=" dealersAdd.latitude.$touched || show_error">
+                                <span ng-message="required">请输入纬度</span></span>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>经度</label>
+                        <div class="col-md-8 col-xs-11">
+                            <input class="form-control" name="longtitude" ng-model="vm.params.longtitude"
+                                   maxlength="10"
+                                   numberic
+                                   required ng-disabled="exist"
+                                   autocomplete="off"
+                                   type="text">
+
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.longtitude.$error" ng-if="dealersAdd.longtitude.$touched || show_error">
+                                <span ng-message="required">请输入经度</span>
+                                </span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4"><span class="star">*</span>详细地址</label>
+                        <div class="col-md-8 col-xs-11">
+                            <input class="form-control" name="address1" ng-model="vm.params.detailAddress"
+
+                                   required ng-disabled="exist"
+                                   autocomplete="off"
+                                   type="text">
+
+                            <span class="text-red" style="position: absolute;font-size: 0.5em;width: 150%"
+                                  ng-messages="dealersAdd.address1.$error" ng-if="dealersAdd.address1.$touched || show_error">
+                                <span ng-message="required">请输入经度</span>
+                                </span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 margin-bottom-15">
+
+                    <city-select select-result="vm.params.address"  required></city-select>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5"></label>
+                        <button style="margin-left:15px;font-size: 1.8rem;" class="col-lg-5  col-md-7"><a style="text-decoration: none;" href="http://www.gpsspg.com/maps.htm" target="_blank">查询经纬度</a></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="col-md-1 textarea-label control-label" for="internalRemark">内部备注</label>
+                        <div class="col-sm-10 ">
+                            <textarea style="height:200px;" name="content" maxlength="100" id="internalRemark" class="form-control" rows="3" ng-model="vm.params.internalRemark" ></textarea>
+                            <p style="position: absolute;right: 30px;bottom: 0px;color: gray">{{vm.params.internalRemark.length?vm.params.internalRemark.length:0}}/100</p>
+                            <div ng-messages="messDet.content.$error" style="color:maroon" role="alert" ng-if="messDet.content.$touched || show_error">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="col-md-1 textarea-label control-label" for="suditorRemark">审计员审计</label>
+                        <div class="col-sm-10 ">
+                            <textarea style="height:200px;" name="content1" maxlength="100" id="suditorRemark" class="form-control" rows="3" ng-model="vm.params.suditorRemark" ></textarea>
+                            <p style="position: absolute;right: 30px;bottom: 0px;color: gray">{{vm.params.suditorRemark.length?vm.params.suditorRemark.length:0}}/100</p>
+                            <div ng-messages="messDet.content.$error" style="color:maroon" role="alert" >
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--按钮-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12  margin-top-20 middle">
+
+                    <button class="btn btn-danger " ui-sref="field.dealersList">取消</button>
+
+                    <button class="btn btn-success"
+                            ng-click="vm.submitForm()"
+                            repeat-click
+                            type="button"  ng-disabled="dealersAdd.$invalid||vm.form" >确认
+
+                    </button>
+
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+</div>

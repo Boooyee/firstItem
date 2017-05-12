@@ -1,0 +1,96 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>{{vm.urlParams.venderTaskId?'编辑':'新增'}}</strong>
+
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" name="task" novalidate>
+            <div class="row" ng-if="!vm.urlParams.venderTaskId && vm.list.vender.type==1">
+                <div class="form-group">
+                    <label class="control-label col-md-3"><span class="star"></span>厂&emsp;&emsp;家</label>
+                    <div class="col-md-6 col-lg-8">
+                        <select name="venderId" ng-model="vm.params.venderId" name="" class="form-control" ng-change="vm.venderChange(event)" required>
+                            <option ng-selected="vm.urlParams.venderId == ven.venderId" value="{{ven.venderId}}" ng-repeat="ven in vm.list.vender.venders">
+                                {{ven.venderName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3"><span class="star"></span>经销商</label>
+                    <div class="col-md-6 col-lg-8">
+                        <input class="form-control" type="text" ng-disabled="vm.urlParams.venderTaskId" ng-model="vm.agencyName" ng-change="vm.searchAgencyName()">
+                        <!--<select name="" id="" class="form-control" required>-->
+                            <!--<option selected value="vm.excelList.distributor.id">{{vm.excelList.distributor.name}}</option>-->
+                        <!--</select>-->
+                        <div style="width:100%;height:130px;border:1px solid #e8e8e8;overflow:scroll" ng-if="vm.distributors&&vm.distributors.length>0">
+                            <div ng-class="{'detail-list-hover':vm.params.distributorId==distributor.id}" style="padding:10px;cursor:pointer" class="detail-list" ng-click="vm.choiceDistributorId(distributor)" ng-repeat="distributor in vm.distributors">{{distributor.companyName}} <span ng-if="distributor.status==0">(被禁用)</span></div>
+                        </div>
+                        <div class="margin-top-5 text-red" ng-if="vm.distributors.length==0">无符合条件经销商</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3">团&emsp;&emsp;队</label>
+                    <div class="col-md-6 col-lg-8">
+                        <label class="radio inline-block margin-left-5 col-md-3"
+                               ng-repeat="team in vm.list.vender.venderTeams">
+                            <input name="team" style="margin-right:1rem;" type="checkbox" ng-model="team.choice">{{team.teamName}}
+                        </label>
+                        <!--团队 有两大类   一个是厂家的 一个是海川（第三方团队  第三方团队是公用的）的  厂家可以用自己的 也可以用利真、海川的 利真、  海川团队是公用的  例如  厂家a不能用厂家b的  但是他们都可以用海川的。-->
+                        <label class="radio inline-block margin-left-5 col-md-3"
+                               ng-repeat="team in vm.list.vender.thirdPartyTeams">
+                            <input name="team" style="margin-right:1rem;" type="checkbox" ng-model="team.choice">{{team.teamName}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3">计划日期</label>
+                    <div class="col-md-8">
+                        <input name="planBeginAt" type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                               data-date-format="yyyy-MM-dd" data-min-date="today" data-date-type="number"
+                               ng-model="vm.params.planBeginAt" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-md-3">说&emsp;&emsp;明</label>
+                    <div class=" col-md-8">
+                            <textarea name="comment" rows="4" class="form-control" ng-model="vm.params.comment" ng-disabled="exist"
+                                      maxlength="100"></textarea>
+                        <span style="position: absolute;right: 30px;bottom: 0;color: gray;">{{vm.params.comment.length?vm.params.comment.length:0}}/100</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--按钮-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12  margin-top-20 middle top-2">
+
+                    <button class="btn btn-danger " ui-sref="field.taskList">取消</button>
+
+                    <button class="btn btn-success"
+                            ng-click="vm.submitForm(1)"
+                            repeat-click
+                            type="button" ng-disabled="task.$invalid || !vm.params.distributorId">确认
+                    </button>
+
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="modal ng-scope top am-fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--status为1 已实名认证 取消实名-->
+            <div ng-if="status==2">
+                <div class="modal-header">
+                    <h3 class="modal-title">提示</h3>
+                </div>
+                <div class="modal-body"  style="text-align:center">
+                    <p>{{content1}}</p>
+                    <p>{{content2}}</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
+                    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+
+            <!--status为1 已实名认证 取消实名-->
+            <div ng-if="status==1||status==4||status==3">
+                <div class="modal-header">
+                    <h3 class="modal-title">提示</h3>
+                </div>
+                <div class="modal-body"  style="text-align:center">
+                    <p>请选择通过或拒绝审核信息</p>
+                    <form action="">
+                        <label for="pass-true">
+                            <input id="pass-true" value="ok" ng-model="pass" type="radio" name="choose">  通过
+                        </label>
+                        <label for="pass-false">
+                            <input id="pass-false" value="no"  ng-model="pass" type="radio" name="choose">  拒绝
+                        </label>
+                    </form>
+                    <textarea style="margin-top:1em;" cols="30" rows="2" ng-model="refuseReason" maxlength="25" ng-show="pass=='no'"></textarea>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" ng-click="passOk(pass)" ng-disabled="!pass">确定</button>
+                    <button class="btn btn-warning" type="button" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

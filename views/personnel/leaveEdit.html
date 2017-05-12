@@ -1,0 +1,63 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>请假详情</strong>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">姓名</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.leave.memberName" ng-disabled = true>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="clear:both;" class="col-md-5">
+                    <div class="form-group">
+                        <label style="text-align: right;" class="control-label col-md-4">请假时间</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.leave.startAt"
+                                   data-max-date="today" ng-disabled = true>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="clear: both;" class="col-md-5">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">请假时长</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.leave.days | daysFilter" ng-disabled = true>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">请假原因</label>
+                        <div class=" col-md-8">
+                            <textarea rows="4" class="form-control" ng-model="vm.leave.reason" ng-disabled = true
+                                      maxlength="100" ></textarea>
+                            <span style="position: absolute;right: 30px;bottom: 0;color: gray;">{{vm.leave.reason.length?vm.leave.reason.length:0}}/100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="clear: both;" class="middle">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-info" ui-sref="field.leaveList">返回</button>
+                </div>
+                <div class="btn-group">
+                    <button ng-if="vm.params.status == 0" ng-click="vm.pass(vm.leave)" class="btn btn-success">同意</button>
+                </div>
+                <div class="btn-group">
+                    <button ng-if="vm.params.status == 0" ng-click="vm.refuse(vm.leave)" class="btn btn-danger">拒绝</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

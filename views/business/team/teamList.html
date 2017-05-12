@@ -1,0 +1,88 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">名称</label>
+                        <div class="  col-md-8">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.name" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">人数</label>
+                        <div class="col-lg-8 col-md-8">
+                            <input   type="text" class="form-control" ng-model="vm.searchParams.count" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label  col-md-4">状态</label>
+                        <div class=" col-md-8  col-xs-11">
+                            <select class="form-control" ng-model="vm.searchParams.isForbidden">
+                                <option value="">全部</option>
+                                <option value="false" >正常</option>
+                                <option value="true" >禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right ">
+                    <search params="vm.searchParams" ></search>
+                    <!--ng-mousedown="vm.time(vm.searchParams.startAt,vm.searchParams.endAt)"-->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>团队列表</strong>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.teamDetail">+新增</button>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table style="min-width:850px;overflow: auto" class="table table-hover add-table-border">
+                <thead>
+                <tr class="grey">
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>人数</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in vm.teamList">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.count}}</td>
+                    <td>{{item.isForbidden===false?'正常':'禁用'}}
+
+                    </td>
+                    <td>
+                        <button class="btn btn-info btn-xs" ui-sref="field.peopleList({teamId:item.id,teamName:item.name})">组员</button>
+                        <button class="btn btn-primary btn-xs" ui-sref="field.teamDetail({id:item.id})">编辑</button>
+
+                        <button class="btn btn-xs btn-danger "
+                                ng-if=" item.isForbidden === false" ng-click="vm.inBan(item.id,item.isForbidden)">禁用</button>
+                        <button class="btn btn-xs  btn-success"
+                                ng-if=" item.isForbidden === true" ng-click="vm.outBan(item.id,item.isForbidden)">解禁</button>
+
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+
+    </div>
+</div>

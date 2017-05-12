@@ -1,0 +1,176 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong ng-show="!vm.exist">新增队员</strong>
+        <strong ng-show="vm.exist">编辑队员</strong>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" name="form">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">姓名</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.params.name" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">电话</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.params.phone"
+                                   ng-pattern="/^\d{11}$/" maxlength="11"
+                                   placeholder="请输入手机号码" name="mobile" required>
+                            <span class="error" ng-show="form.mobile.$error.pattern">格式有误</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">邮箱</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="email" name="email" class="form-control" ng-model="vm.params.email" ng-pattern="/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/">
+                            <span class="error" ng-show="form.email.$error.pattern">请输入正确的邮箱地址</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">毕业院校</label>
+                        <div class="col-lg-8 col-md-7 col-xs-11">
+                            <input type="text" class="form-control" ng-model="vm.params.school">
+                            <span style="position: absolute;top: 6px;right: -13px;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">学历</label>
+                        <div class="col-lg-8 col-md-7  col-xs-11">
+                            <select class="form-control" style="min-width: 50px;"
+                                    ng-model="vm.params.education">
+                                <option value="0" ng-selected="vm.params.education===0">小学</option>
+                                <option value="1" ng-selected="vm.params.education===1">初中</option>
+                                <option value="2" ng-selected="vm.params.education===2">高中</option>
+                                <option value="3" ng-selected="vm.params.education===3">专科</option>
+                                <option value="4" ng-selected="vm.params.education===4">大学</option>
+                                <option value="5" ng-selected="vm.params.education===5">研究生</option>
+                                <option value="6" ng-selected="vm.params.education===6">博士</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">专业</label>
+                        <div class="col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.params.major">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <!--<div class="col-md-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-lg-4 col-md-5">账号</label>-->
+                        <!--<div class="col-lg-8 col-md-4">-->
+                            <!--<input type="text" class="form-control"-->
+                                   <!--ng-model="vm.params.account">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label style="text-align: right" class="control-label col-md-4">生日</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.params.birthday" data-min-date="{{vm.searchParams.startAt}}"
+                                   data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">籍贯</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <input type="text" class="form-control" ng-model="vm.params.address" ng-maxlength="12" chinese>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">职位</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <input type="text" class="form-control" ng-model="vm.params.position" ng-maxlength="12" chinese>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">公司</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <input type="text" class="form-control" disabled ng-model="vm.params.company">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">部门</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <input type="text" class="form-control" disabled ng-model="vm.params.department">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">工作城市</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <input type="text" class="form-control" ng-model="vm.params.city">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label style="text-align: right" class="control-label col-md-4">入职时间</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.params.inductionTime" data-min-date="{{vm.searchParams.startAt}}"
+                                   data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="middle">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-danger" ng-click="vm.cancel()">取消</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-success" ng-click="vm.submit()">确认</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,196 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal" role="form" name="form">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">姓名</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.employeeName" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">电话</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.phone" maxlength="11"
+                                   name="mobile" required>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label style="text-align: right" class="control-label col-md-4">入职时间</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.inductionStartTime" data-min-date="{{vm.searchParams.inductionEndTime}}"
+                                   data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label style="text-align: center" class="control-label col-md-4">—</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.inductionEndTime" data-min-date="{{vm.searchParams.inductionStartTime}}"
+                                   data-max-date="today">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!--<div class="col-md-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-lg-4 col-md-5">公司</label>-->
+                        <!--<div class="col-lg-8  col-md-3" >-->
+                            <!--<input type="text" class="form-control" ng-model="vm.searchParams.companyName">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="col-md-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-lg-4 col-md-5">部门</label>-->
+                        <!--<div class="col-lg-8  col-md-3" >-->
+                            <!--<input type="text" class="form-control" ng-model="vm.searchParams.departmentName">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="col-md-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-lg-4 col-md-5">团队</label>-->
+                        <!--<div class="col-lg-8  col-md-3" >-->
+                            <!--<input type="text" class="form-control" ng-model="vm.searchParams.name">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">工作城市</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <input type="text" class="form-control" ng-model="vm.searchParams.city">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">职位</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <input type="text" class="form-control" ng-model="vm.searchParams.position">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">状态</label>
+                        <div class="col-lg-8  col-md-3" >
+                            <select class="form-control" ng-model="vm.searchParams.status">
+
+                                <option value="0" ng-selected="vm.searchParams.status===0">禁用</option>
+                                <option value="1" ng-selected="vm.searchParams.status===1">正常</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <!--<div class="col-md-4 text-right pull-right">-->
+                    <!--<search2 ng-mousedown="detD(minAmount)" params="vm.searchParams" clean1="minYearRate"-->
+                             <!--clean2="maxYearRate" clean3="minAmount"></search2>-->
+                <!--</div>-->
+                <div class="col-md-4 text-right pull-right">
+                <search params="vm.searchParams"></search>
+            </div>
+                </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>员工列表</strong>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.staffEdit">+新增</button>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table style="min-width:850px;overflow: auto" class="table table-hover add-table-border ellipsis">
+                <thead>
+                <tr class="grey">
+                    <th>编号</th>
+                    <th>姓名</th>
+                    <th>电话</th>
+                    <th>邮箱</th>
+                    <th>毕业院校</th>
+                    <th>学历</th>
+                    <th>专业</th>
+                    <!--<th>账号</th>-->
+                    <th>籍贯</th>
+                    <th>年龄</th>
+                    <th>入职时间</th>
+                    <th>工作城市</th>
+                    <th>公司</th>
+                    <th>部门</th>
+                    <!--<th>团队</th>-->
+                    <th>职位</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="li in vm.list">
+                    <td>{{li.id}}</td>
+                    <td>{{li.name}}</td>
+                    <td>{{li.phone}}</td>
+                    <td>{{li.email}}</td>
+                    <td>{{li.school}}</td>
+                    <td>{{li.education | educationFilter}}</td>
+                    <td>{{li.major}}</td>
+                    <!--<td>{{li.account}}</td>-->
+                    <td>{{li.address}}</td>
+                    <td>{{li.age}}</td>
+                    <td>{{li.inductionTime|date:'yyyy-MM-dd'}}</td>
+                    <td>{{li.city}}</td>
+                    <td>{{li.company}}</td>
+                    <td>{{li.department}}</td>
+                    <td>{{li.position}}</td>
+                    <td>{{li.status==1 ? '正常':'禁用'}}</td>
+                    <td>
+                        <button class="btn btn-info btn-xs" ui-sref="field.personalData({id:li.id})">个人资质</button>
+                        <button class="btn btn-primary btn-xs" ui-sref="field.staffEdit({id:li.id,companyId:vm.searchParams.companyId,departmentId:vm.searchParams.departmentId})">编辑</button>
+
+                        <button class="btn btn-xs btn-success"
+                                ng-if=" li.status ==0" ng-click="vm.outBan(li.id,li.status)">解禁</button>
+                        <button class="btn btn-xs btn-danger"
+                                ng-if=" li.status ==1" ng-click="vm.inBan(li.id,li.status)">禁用</button>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+    </div>
+</div>

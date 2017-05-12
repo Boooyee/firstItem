@@ -1,0 +1,184 @@
+{
+  "code": 0,
+  "message": "ok",
+  "data": [
+    {
+      "id": 1,
+      "name": "业务管理",
+      "nodes": [
+        {
+          "id":7,
+          "name": "经销商管理",
+          "url": "field.agencyList"
+        },
+        {
+          "id":8,
+          "name": "团队管理",
+          "url": "field.teamList"
+        },
+        {
+          "id":9,
+          "name": "厂家管理",
+          "url": "field.dealersList"
+        },
+        {
+          "id":10,
+          "name": "库位管理",
+          "url": "field.storageList"
+        },
+        {
+          "id":11,
+          "name": "队员管理",
+          "url": "field.peopleList"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "审核管理",
+      "nodes": [
+        {
+          "id":27,
+          "name": "在途已售报告表",
+          "url": "field.saleList"
+        },
+        {
+          "id":28,
+          "name": "在途已收报告",
+          "url": "field.saleReport"
+        },
+        {
+          "id":29,
+          "name": "审计报告表",
+          "url": "field.auditList"
+        },
+        {
+          "id":26,
+          "name": "审计报告",
+          "url": "field.auditReport"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "组织管理",
+      "nodes": [
+        {
+          "id":81,
+          "name": "公司列表",
+          "url": "field.companyList"
+        },
+        {
+          "id":82,
+          "name": "部门列表",
+          "url": "field.departmentList"
+        },
+        {
+          "id":83,
+          "name": "员工列表",
+          "url": "field.staffList"
+        },
+        {
+          "id":84,
+          "name": "个人资质",
+          "url": "field.personalData"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "人事管理",
+      "nodes": [
+        {
+          "id":41,
+          "name": "迟到申报列表",
+          "url": "field.lateList"
+        },
+        {
+          "id":42,
+          "name": "迟到申报",
+          "url": "field.lateCompile"
+        },
+        {
+          "id":43,
+          "name": "请假申请列表",
+          "url": "field.leaveList"
+        },
+        {
+          "id":44,
+          "name": "请假详情",
+          "url": "field.leaveCompile"
+        }
+      ]
+    },
+
+
+
+
+    {
+      "id": 9,
+      "name": "运营管理",
+      "nodes": [
+        {
+          "id":100,
+          "name": "内容列表",
+          "url": "field.contentList"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "任务管理",
+      "nodes": [
+        {
+          "id":20,
+          "name": "任务列表",
+          "url": "field.taskList"
+        },
+        {
+          "id":21,
+          "name": "分配任务",
+          "url": "field.taskList"
+        },
+        {
+          "id":22,
+          "name": "外勤列表",
+          "url": "field.outworkList"
+        },
+        {
+          "id":23,
+          "name": "照片（网点审核）",
+          "url": "field.taskList"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "后台管理",
+      "nodes": [
+        {
+          "id":30,
+          "name": "账户管理",
+          "url": "field.manager"
+        },
+        {
+          "id":31,
+          "name": "密码修改",
+          "url": "field.pwd"
+        },
+        {
+          "id":32,
+          "name": "模块管理",
+          "url": "field.module"
+        },
+        {
+          "id":33,
+          "name": "角色管理",
+          "url": "field.role"
+        }
+      ]
+    }
+  ]
+}
+
+

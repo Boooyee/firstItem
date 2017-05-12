@@ -1,0 +1,152 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">任务编号</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.taskNum">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">经销商</label>
+                        <div class="col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.distributorName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">电话</label>
+                        <div class="col-lg-8  col-md-7">
+                            <input type="text" class="form-control" minlength="8" maxlength="11" ng-model="vm.searchParams.connactPhone">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!--<div class="col-md-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-lg-4 col-md-5">本部地址</label>-->
+                        <!--<div class="col-lg-8 col-md-7">-->
+                            <!--<input type="text" class="form-control" ng-model="maxYearRate">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">联系人</label>
+                        <div class="col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.connactName">
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="col-md-4">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-lg-4 col-md-5">状态</label>-->
+                        <!--<div class="col-lg-8  col-md-7">-->
+                            <!--<select class="form-control" style="min-width: 50px;"-->
+                                    <!--ng-model="vm.searchParams.status">-->
+                                <!--<option value="0" ng-selected="vm.searchParams.status=='0'">全部</option>-->
+                                <!--<option value="1" ng-selected="vm.searchParams.status==='1'">通过</option>-->
+                                <!--<option value="2" ng-selected="vm.searchParams.status==='2'">拒绝</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="col-md-4" style="height: 49px;"></div>-->
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">计划日期</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd HH:mm" data-date-type="number"
+                                   ng-model="vm.searchParams.planStartTime">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 text-center">~</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd HH:mm" data-date-type="number"
+                                   ng-model="vm.searchParams.planEndTime">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right pull-right">
+                    <search params="vm.searchParams"></search>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>在途已售报告表</strong>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table class="table table-hover add-table-border storageList">
+                <thead>
+                    <tr class="grey">
+                        <th>任务编号</th>
+                        <th>经销商简称</th>
+                        <th>本部地址</th>
+                        <th>联系人</th>
+                        <th>电话</th>
+                        <th>在途数</th>
+                        <th>已售数</th>
+                        <th>其他数</th>
+                        <th>计划日期</th>
+                        <th>进场日期</th>
+                        <th>审计位置</th>
+                        <!--<th>状态</th>-->
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="li in vm.saleList">
+                        <td>{{li.id}}</td>
+                        <td>{{li.distributorShortName}}</td>
+                        <td>{{li.headStorageAddress}}</td>
+                        <td>{{li.headStorageContactName}}</td>
+                        <td>{{li.headStorageContactPhone}}</td>
+                        <td>{{li.enrouteNum}}</td>
+                        <td>{{li.saledNum}}</td>
+                        <td>{{li.otherNum}}</td>
+                        <td>{{li.planBeginAt | date:'yyyy-MM-dd HH:mm'}}</td>
+                        <td>{{li.beginAt | date:'yyyy-MM-dd HH:mm'}}</td>
+                        <td>
+                            <p>{{li.auditDirection | positionFilter}}</p>
+                            <p>{{li.auditDistance | distanceFilter}}</p>
+                        </td>
+                        <!--<td>{{li.status | saleFilter}}</td>-->
+                        <td>
+                            <a class="btn btn-xs btn-info" ui-sref="field.saleReport({id:li.id})">报告</a>
+                            <a style="display: none;" class="btn btn-xs btn-primary" ng-click="audit()">审核</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+    </div>
+</div>

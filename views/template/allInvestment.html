@@ -1,0 +1,17 @@
+<div class="modal ng-scope top am-fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: block;text-align:center;z-index: 99999">
+    <div  style="padding-bottom:1em;position: absolute;margin-left: 70%;margin-top: 20px">
+        <table style="color: white;border: 1px solid white">
+            <tr  style="border-bottom:1px solid white;padding:1em 0;height:30px;">
+                <th style="text-align: center">投资合同编号</th>
+                <th style="text-align: center">投资金额（元）</th>
+            </tr>
+            <tr class="temTr" style="background:transparent" ng-repeat="all in backList track by $index" ng-click="pipeichanpin(all.investId)"
+                ng-class="{true:'chanpin-use'}[all.use]">
+                <td class="temTd">{{all.contractNo}}</td>
+                <td class="temTd">{{all.investAmount | number:2}}(元)</td>
+            </tr>
+        </table>
+    </div>
+    <i  class="glyphicon glyphicon-remove"   ng-click="iconOff()" style="cursor: pointer;position: fixed;right: 50px;top:10px;font-size: 30px"></i>
+</div>
+

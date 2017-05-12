@@ -1,0 +1,30 @@
+<div class="btn-group">
+    <div class="dropdown-toggle dropdown" data-toggle="dropdown" aria-haspopup="true"
+         aria-expanded="false" ng-click="gao($event)">
+        <span class="caret"></span>
+    </div>
+
+    <ul class="dropdown-menu  dropdown-menu1">
+        <li><a class="dropdown-toggle">正序</a></li>
+        <li><a class="dropdown-toggle">倒叙</a></li>
+        <li role="separator" class="divider"></li>
+        <li class="dropdown "><a>列表<span class="triangle-right float-right"></span></a>
+            <ul class=" dropdown-menu menu-top thirdTitle dropdown-menu1" ng-repeat="data in vm.params.config">
+                <li ng-mouseover="vm.getNode(toptitle.id)" style="padding:3px 20px" ng-if="toptitle.name"
+                    ng-repeat="toptitle in data.top" class="dropdown-submenu"><input
+                        ng-change="vm.nodeChange(0,toptitle.id)" ng-model="toptitle.show" type="checkbox"
+                        aria-label="..."><span>{{toptitle.name}}</span>
+                    <ul class="dropdown-menu dropdown-menu1">
+                        <li ng-repeat="node in vm.daughterNodeParams" style="padding:3px 20px"><input
+                                ng-change="vm.nodeChange(1,node.id)" ng-model="node.show" type="checkbox"
+                                aria-label="...">{{node.name}}
+                        </li>
+                    </ul>
+                </li>
+                <li ng-if="!bottomtitle.parentId" style="padding:3px 20px" ng-repeat="bottomtitle in data.bottom"><input
+                        ng-model="bottomtitle.show" type="checkbox" aria-label="..."><span>{{bottomtitle.name}}</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

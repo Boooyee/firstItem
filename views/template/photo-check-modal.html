@@ -1,0 +1,25 @@
+<div class="modal ng-scope top am-fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">操作提示</h3>
+            </div>
+            <div class="margin-top-20 middle">
+                请选择通过或拒绝审核信息
+            </div>
+            <div class="margin-top-20 middle">
+                <label for="pass">
+                    <input id="pass" ng-model="status" value="4" name="res" type="radio">通过
+                </label>
+                <label for="refuse">
+                    <input id="refuse"ng-model="status" value="2" name="res" type="radio">拒绝
+                </label>
+            </div>
+
+            <div class="middle margin-top-20 margin-bottom-15">
+                <button class="btn btn-primary" type="button" ng-click="cancel()">取消</button>
+                <button class="btn btn-success" type="button" ng-disabled="!status" ng-click="ok()">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">任务编号</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.venderTaskId">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">经销商</label>
+                        <div class="col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.distributorShortName">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">状态</label>
+                        <div class="col-lg-8  col-md-7">
+                            <select class="form-control" style="min-width: 50px;"
+                                    ng-model="vm.searchParams.judgeResult">
+                                <option value=""
+                                        ng-selected="vm.searchParams.judgeResult==''||vm.searchParams.judgeResult==undefined"
+                                        selected>全部
+                                </option>
+                                <option value="0" ng-selected="vm.searchParams.judgeResult===0">未审核</option>
+                                <option value="1" ng-selected="vm.searchParams.judgeResult===1">初审通过</option>
+                                <option value="2" ng-selected="vm.searchParams.judgeResult===2">终审通过</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">初审日期</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.firstJudgeStart">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 text-center">~</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd" data-date-type="number"
+                                   ng-model="vm.searchParams.firstJudgeEnd">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">终审日期</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd HH:mm" data-date-type="number"
+                                   ng-model="vm.searchParams.finalJudgeStart">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-md-1 text-center">~</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" size="20" bs-datepicker autoclose="true"
+                                   data-date-format="yyyy-MM-dd HH:mm" data-date-type="number"
+                                   ng-model="vm.searchParams.finalJudgeEnd">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right pull-right">
+                    <search params="vm.searchParams"></search>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>审计报告表</strong>
+        <div style="float: right;">
+            <!--<span><a style="text-decoration: none;cursor: pointer;">导出PDF</a></span>-->
+            <span><a style="text-decoration: none;cursor: pointer;">下载图包</a></span>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table class="table table-hover add-table-border storageList">
+                <thead>
+                    <tr class="grey">
+                        <th>任务编号</th>
+                        <th>经销商</th>
+                        <th>车型</th>
+                        <th>团队</th>
+                        <th>库位总数</th>
+                        <th>照片数</th>
+                        <th>完成数</th>
+                        <th>完成日期</th>
+                        <th>初审时间</th>
+                        <th>终审时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="li in vm.auditList">
+                        <td>{{li.venderTaskId}}</td>
+                        <td>{{li.distributorShortName}}</td>
+                        <td>{{li.carType}}</td>
+                        <td>{{li.eachTeamName}}</td>
+                        <td>{{li.storageNum}}</td>
+                        <td>{{li.photoNum}}</td>
+                        <td>{{li.auditFinishTimes}}</td>
+                        <td>{{li.endAt | date:"yyyy-MM-dd"}}</td>
+                        <td>{{li.firstJudgeAt | date:"yyyy-MM-dd HH:mm"}}</td>
+                        <td>{{li.finalJudgeAt | date:"yyyy-MM-dd HH:mm"}}</td>
+                        <td>{{li.judgeResult | auditFilter}}</td>
+                        <td>
+                            <a ui-sref="field.auditReport({id:li.id,status:li.judgeResult})" class="btn btn-xs btn-info">报告</a>
+                            <a class="btn btn-xs btn-primary" ng-if=" li.judgeResult == '0'" ng-click="vm.first({id:li.id})">初审</a>
+                            <a ng-if="vm.self.role.status == 'using' && li.judgeResult == '1'" class="btn btn-xs btn-success" ng-click="vm.second({id:li.id})">终审</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group" role="form" name="form">
+                        <label class="control-label col-lg-4 col-md-5">名称</label>
+                        <div class=" col-lg-8 col-md-7">
+                            <input type="text" class="form-control" ng-model="vm.searchParams.departmentName" chinese>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label col-lg-4 col-md-5">状态</label>
+                        <div class="col-lg-8  col-md-7">
+                            <select class="form-control" ng-model="vm.searchParams.status">
+                                <option value=""
+                                        ng-selected="vm.searchParams.status==''||vm.searchParams.status==undefined"
+                                        selected>全部
+                                </option>
+                                <option value="0" ng-selected="vm.searchParams.status===0">禁用</option>
+                                <option value="1" ng-selected="vm.searchParams.status===1">正常</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-right pull-right">
+                    <search params="vm.searchParams"></search>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>部门列表</strong>
+        <button class="btn btn-primary btn-xs pull-right margin-right-20" ui-sref="field.departmentEdit({companyId:vm.searchParams.companyId})">+新增</button>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive border">
+            <table style="min-width:850px;overflow: auto" class="table table-hover add-table-border">
+                <thead>
+                    <tr class="grey">
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="li in vm.department">
+                        <td>{{li.id}}</td>
+                        <td>{{li.name}}</td>
+                        <td>{{li.status | companyFilter}}</td>
+                        <td>
+                            <button class="btn btn-xs btn-primary" ng-click="vm.toStaffList(li)" ui-sref="field.staffList({companyId:li.companyId,departmentId:li.id})">员工</button>
+                            <button class="btn btn-xs btn-info" ui-sref="field.departmentEdit({id:li.id,companyId:vm.searchParams.companyId})">编辑</button>
+                            <button ng-if="li.status == 1" class="btn btn-xs btn-danger" ng-click="vm.refuse({id:li.id})">禁用</button>
+                            <button ng-if="li.status == 0" class="btn btn-xs btn-success" ng-click="vm.pass({id:li.id})">解禁</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <pagination ng-if="vm.total" total="{{vm.total}}"></pagination>
+    </div>
+</div>
